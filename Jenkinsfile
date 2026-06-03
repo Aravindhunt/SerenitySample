@@ -9,22 +9,23 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Build & Generate Report') {
             steps {
                 bat 'gradlew clean test'
-            }
-        }
-
-        stage('Generate Report') {
-            steps {
-                bat 'gradlew aggregate'
             }
         }
     }
 
     post {
         always {
-            archiveArtifacts artifacts: '**/target/site/serenity/**'
+            publishHTML([
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'target/site/serenity',
+                reportFiles: 'index.html',
+                reportName: 'Serenity Report'
+            ])
         }
     }
 }
