@@ -2,30 +2,22 @@ pipeline {
     agent any
 
     stages {
-
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
 
-        stage('Build & Generate Report') {
+        stage('Build') {
             steps {
-                bat 'gradlew clean test'
+                bat 'gradlew clean test aggregate'
             }
         }
     }
 
     post {
         always {
-            publishHTML([
-                allowMissing: false,
-                alwaysLinkToLastBuild: true,
-                keepAll: true,
-                reportDir: 'target/site/serenity',
-                reportFiles: 'index.html',
-                reportName: 'Serenity Report'
-            ])
+            archiveArtifacts artifacts: 'target/site/serenity/**/*', fingerprint: true
         }
     }
 }
