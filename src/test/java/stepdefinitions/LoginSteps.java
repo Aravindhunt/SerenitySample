@@ -4,6 +4,7 @@ import io.cucumber.java.Before;
 import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import pages.LoginPage;
@@ -33,5 +34,10 @@ public class LoginSteps {
     public void clickLoginButton() {
         loginPage.clickLogin();
 
+    }
+
+    @Then("verify Logged in url and success message")
+    public void verifyLoggedInUrlAndSuccessMessage() {
+       loginPage.verifysuccessmsg();
     }
 }
